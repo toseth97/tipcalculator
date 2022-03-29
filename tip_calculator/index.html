@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Calculator</title>
+    <link rel="shortcut icon" href="./logo.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: hsl(185, 41%, 84%);
+        }
+        .attribution{
+            text-align: center;
+        }
+        
+        .logo{
+            position: absolute;
+            top: 50px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            height: 50px;
+            width: 50px;
+        }
+        .container{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Space Mono', monospace;
+        }
+        .sub_container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40%;
+            background-color: #fff;
+            border-radius: 15px;
+        }
+        .calculator, .screen{
+            padding: 20px;
+        }
+        .calculator{
+            font-size: 13px;
+        }
+        label{
+            display: block;
+        }
+        label, p{
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: hsl(183, 100%, 15%);
+            opacity: .6;
+            font-weight: bold;
+        }
+        .tips{
+            margin-top: 20px;
+        }
+        input{
+            width: 100%;
+            height: 25px;
+            border-radius: 5px;
+            border: none;
+            padding: 5px;
+            background-color: hsl(180, 25%, 91%);
+            font-family: 'Space Mono', monospace;
+            text-align: right;
+            color: hsl(183, 100%, 15%);
+        }
+        .input{
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .img{
+            height: 10px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            margin: auto 5px;
+           
+        }
+        ::placeholder{
+            text-align: right;
+        }
+        .tip_percentages{
+            display: grid;
+            grid-template-columns: 33% 33% 33%;
+        }
+        .percentage{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3px 15px;
+            background-color: hsl(183, 100%, 15%);
+            border-radius: 4px;
+            margin: 3px;
+            color: hsl(0, 0%, 100%);
+            cursor: pointer;
+            transition: all .3s ease;
+        }
+        .percentage:hover{
+           background-color: hsl(184, 14%, 56%);
+           color: hsl(183, 100%, 15%);
+        }
+        .percentage:active{
+            background-color: hsl(185, 41%, 84%);
+            color: hsl(183, 100%, 15%);
+        }
+        .custom{
+            background-color: hsl(180, 25%, 91%); 
+            color: hsl(183, 100%, 15%);
+            font-weight: 700;
+        }
+        .people{
+            margin-top: 10px;
+        }
+        .screen{
+            width: 80%;
+            background-color: hsl(183, 100%, 15%);
+            height: 230px;
+            top: 0;
+            bottom: 0;
+            margin: auto 10px;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: 100%;
+        }
+        .tip_amount{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .tip_amount h3{
+            font-size: 10px;
+            color: #fff;
+        }
+        .drop{
+            display: block;
+            color: hsl(184, 14%, 56%);
+        }
+        .tipAmountSc,.totalsc{
+            color: hsl(185, 41%, 84%);
+            font-size: 25px;
+            font-weight: 700;
+            opacity: 0.6;
+        }
+        .dollar{
+            display: inline;
+        }
+        .dollar span, .dollar div{
+            display: inline;
+        }
+        .reset{
+            margin-top: 60px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 3px;
+            opacity: 0.6;
+            background-color: hsl(185, 41%, 84%);
+            color: hsl(183, 100%, 15%);
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .new_percentage{
+            width: 25%;
+            height: 30vh;
+            background-color: hsl(184, 14%, 56%);
+            text-align: center;
+            border-radius: 10px;
+            position: fixed;
+            margin: auto;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transform: scale(0);
+            transition: all .4s ease;
+            
+        }
+        .new_percentage.show{
+            transform: scale(1);
+        }
+        .percentage_content{
+            padding: 15px;
+        }
+        .new_percentage p{
+            padding: 10px;
+        }
+        .custom_percentage{
+            width: 50%;
+            margin: 10px 0 0;
+            padding: 10px;
+            
+        }
+        .select{
+            display: block;
+            margin: 10px auto;
+            padding: 4px 13px;
+            border: none;
+            background-color: hsl(183, 100%, 15%);
+            color: hsl(189, 41%, 97%);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all .3s ease;
+        }
+        .select:hover{
+           background-color: hsl(186, 47%, 39%);
+           color: #fff;
+        }
+        .select:active{
+            background-color: hsl(185, 41%, 84%);
+            color: hsl(183, 100%, 15%);
+        }
+        .cantbe{
+            display: flex;
+            justify-content: space-between;
+        }
+        .cantbe label, .cantbe p{
+            display: flex;
+            justify-content: space-between;
+            font-size: 9px;
+        }
+        #pple.active{
+            animation: boder 4s ease;
+        }
+        @keyframes boder{
+            0%{
+                
+            }
+            33%{
+                border: 1px solid red;
+            }
+            50%{
+                border: 1px solid red;
+            }
+            100%{
+            
+            }
+        }
+        .zero{
+            
+            opacity: 0;
+        }
+        .zero.active{
+            animation: act 4s linear;
+            color: red;
+        }
+        @keyframes act{
+            0%{
+                opacity: 0;
+            }
+            33%{
+                opacity: 1;
+            }
+            50%{
+                opacity: 1;
+            }
+            100%{
+                opacity: 0;
+            }
+        }
+        
+        @media screen and (max-width:1100px) {
+            .sub_container{
+                max-width: 800px;
+            }
+        }
+        @media screen and (max-width: 800px) {
+            .logo{
+                position: absolute;
+                top: 20px;
+                height: 100px;
+                width: 100px;
+            }
+            .sub_container{
+                width: 100%;
+                max-width: 500px;
+                display: block;
+                grid-template-columns: 90%;
+                box-sizing: border-box;
+                border-top-right-radius: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+                bottom: 0;
+                margin: auto;
+                padding: 15px;
+                margin-top: 150px;
+            }
+            
+            .calculator, .screen{
+                width: 100%;
+                box-sizing: border-box;
+                margin:auto;
+                padding: 5px 20px;
+            }
+            .screen{
+                width: 90%;
+            }
+            .tips{
+                margin: auto;
+            }
+            .tip_percentages{
+                grid-template-columns: 50% 50%;
+            }
+            .new_percentage{
+                max-width: 300px;
+                width: 90%;
+                height: 35vh;
+            }
+        }
+        @media screen and (max-width: 550px) {
+            .logo{
+                position: absolute;
+                top: 20px;
+                height: 30px;
+                width: 30px;
+            }
+            .sub_container{
+                width: 100%;
+                max-width: 300px;
+                display: block;
+                grid-template-columns: 90%;
+                box-sizing: border-box;
+                border-top-right-radius: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+                bottom: 0;
+                margin: auto;
+                padding: 15px;
+                margin-top: 70px;
+            }
+            
+            .calculator, .screen{
+                width: 100%;
+                box-sizing: border-box;
+                margin:auto;
+                padding: 5px 20px;
+            }
+            .screen{
+                width: 90%;
+            }
+            .tips{
+                margin: auto;
+            }
+            .tip_percentages{
+                grid-template-columns: 50% 50%;
+            }
+            .new_percentage{
+                max-width: 300px;
+                width: 90%;
+                height: 35vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="./logo.svg" alt="" class="logo">
+    <section class="container">
+       <div class="sub_container">
+        <div class="calculator">
+            <div class="bills">
+                <label for="name">Bill</label>
+                <div class="input">
+                    <span><img src="./icon-dollar.svg" alt="" class="img"></span>
+                    <input type="tel" id="bil" placeholder="0"> 
+                </div>
+                    
+            </div>
+           <div class="tips">
+               <p>Select tip %</p>
+               <div class="tip_percentages">
+                <div class="percentage" id="five">5%</div>
+                <div class="percentage" id="ten">10%</div>
+                <div class="percentage" id="fifteen">15%</div>
+                <div class="percentage" id="twenty_five">25%</div>
+                <div class="percentage" id="fifty">50%</div>
+                <div class="percentage custom" id="custom">Custom</div>
+               </div>
+           </div>
+           <div class="people">
+            <div class="cantbe">
+                <label for="name">Number of People</label><p class="zero"></p>
+            </div>
+            <div class="input">
+                <span><img src="./icon-person.svg" alt="" class="img"></span>
+                <input type="tel" id="pple" placeholder="0"> 
+            </div>
+           </div>
+        </div>
+
+
+        <div class="screen">
+            <div class="tip_amount rectangle">
+                <h3>Tip Amount <span class="drop"> /person</span> </h3>
+                <div class="dollar"> <span> <img src="./icon-dollar.svg" alt=""> </span> <div class="tipAmountSc">0.00</div></div>
+            </div>
+            <div class="tip_amount rectangle">
+                <h3>Total <span class="drop"> /person</span> </h3>
+                <div class="dollar"> <span> <img src="./icon-dollar.svg" alt=""> </span> <div class="totalsc">0.00</div> </div>
+            </div>
+            <button class="reset">RESET</button>
+        </div>
+        
+        
+       </div>
+       
+    </section>
+    <div class="new_percentage">
+        <div class="percentage_content">
+            <p>Please enter your value, e.g 70</p>
+            <input type="tel" class="custom_percentage">
+            <button class="select" id="select">Select</button>
+            <button class="select" id="cancel">Cancel</button>
+        </div>
+    </div>
+    <script src="./index.js"></script>
+    <div class="attribution">
+        Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+        Coded by <a href="https://github.com/toseth97">Tobiloba Lawal</a>.
+      </div>
+</body>
+</html>
